@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5tvfxgfgp2mh"]
+
+[ext_resource type="Script" uid="uid://beaco80epjw5c" path="res://Scenes/Scripts/movement_interface.gd" id="1_c0vgw"]
+[ext_resource type="Texture2D" uid="uid://dbofcrtx3f7fw" path="res://Assets/movement_container.png" id="1_qvucn"]
+[ext_resource type="Texture2D" uid="uid://lqe5vdpragmo" path="res://Assets/timer_empty.png" id="3_35jsb"]
+[ext_resource type="Texture2D" uid="uid://bbc3dq6tmjyr4" path="res://Assets/timer_full.png" id="4_lc0e0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_35jsb"]
+texture = ExtResource("1_qvucn")
+texture_margin_left = 4.0
+texture_margin_right = 4.0
+
+[node name="MovementInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 24.0
+offset_top = -8.0
+offset_right = 136.0
+offset_bottom = 8.0
+size_flags_horizontal = 0
+script = ExtResource("1_c0vgw")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_35jsb")
+
+[node name="MovementContainer" type="HBoxContainer" parent="PanelContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_top = 16.0
+offset_right = 112.0
+offset_bottom = 24.0
+fill_mode = 1
+texture_under = ExtResource("4_lc0e0")
+texture_progress = ExtResource("3_35jsb")

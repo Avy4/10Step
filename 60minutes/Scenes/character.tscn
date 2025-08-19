@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://vfljl62lk0ul"]
+
+[ext_resource type="Texture2D" uid="uid://oaldks6grflk" path="res://Assets/16x16_Character.png" id="1_lkv7d"]
+[ext_resource type="Script" uid="uid://dugbsd5uft6g5" path="res://Scenes/Scripts/character.gd" id="2_ushfy"]
+[ext_resource type="Texture2D" uid="uid://bb5fq4f4ut5at" path="res://Assets/left_character.png" id="3_owm7s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owm7s"]
+atlas = ExtResource("1_lkv7d")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejsiy"]
+atlas = ExtResource("3_owm7s")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nytcm"]
+atlas = ExtResource("1_lkv7d")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ushfy"]
+atlas = ExtResource("1_lkv7d")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ejsiy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owm7s")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejsiy")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nytcm")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ushfy")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ushfy"]
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_owm7s"]
+size = Vector2(12, 12)
+
+[node name="Character" type="CharacterBody2D"]
+collision_mask = 10
+safe_margin = 1.0
+script = ExtResource("2_ushfy")
+
+[node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ejsiy")
+animation = &"left"
+autoplay = "down"
+
+[node name="CharacterCollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ushfy")
+
+[node name="GoalCheckArea" type="Area2D" parent="."]
+
+[node name="GoalCheckShape" type="CollisionShape2D" parent="GoalCheckArea"]
+shape = SubResource("RectangleShape2D_owm7s")

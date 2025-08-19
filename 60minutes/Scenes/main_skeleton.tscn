@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=4 uid="uid://dbvp0fvbnrso"]
+
+[ext_resource type="Script" uid="uid://bmibw7byr02cp" path="res://Scenes/Scripts/main_skeleton.gd" id="1_xidlt"]
+[ext_resource type="TileSet" uid="uid://centih1k5usak" path="res://Assets/main_skeleton.tres" id="2_vbvik"]
+[ext_resource type="PackedScene" uid="uid://vfljl62lk0ul" path="res://Scenes/character.tscn" id="3_xidlt"]
+[ext_resource type="PackedScene" uid="uid://c5tvfxgfgp2mh" path="res://Scenes/movement_interface.tscn" id="4_ckybl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vbvik"]
+size = Vector2(16, 16)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_xidlt")
+
+[node name="TimeLeft" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+one_shot = true
+
+[node name="TileLayerHolder" type="Node2D" parent="."]
+
+[node name="BottomLayer" type="TileMapLayer" parent="TileLayerHolder"]
+tile_map_data = PackedByteArray("AAAAAAMAAAAAAAUAAAAAAAAAAAAAAAUAAAAAAAEAAAAAAAUAAAAAAAIAAAAAAAUAAAAAAAQAAAAAAAUAAAAAAAUAAAAAAAUAAAAAAAYAAAAAAAUAAAAAAAcAAAAAAAUAAAAAAAgAAAAAAAUAAAAAAAkAAAAAAAUAAAABAAAAAAAAAAUAAAABAAEAAAAAAAUAAAABAAIAAAAAAAUAAAABAAMAAAAAAAUAAAABAAQAAAAAAAUAAAABAAUAAAAAAAUAAAABAAYAAAAAAAUAAAABAAcAAAAAAAUAAAABAAgAAAAAAAUAAAABAAkAAAAAAAUAAAACAAAAAAAAAAUAAAACAAEAAAAAAAUAAAACAAIAAAAAAAUAAAACAAMAAAAAAAUAAAACAAQAAAAAAAUAAAACAAUAAAAAAAUAAAACAAYAAAAAAAUAAAACAAcAAAAAAAUAAAACAAgAAAAAAAUAAAACAAkAAAAAAAUAAAADAAAAAAAAAAUAAAADAAEAAAAAAAUAAAADAAIAAAAAAAUAAAADAAMAAAAAAAUAAAADAAQAAAAAAAUAAAADAAUAAAAAAAUAAAADAAYAAAAAAAUAAAADAAcAAAAAAAUAAAADAAgAAAAAAAUAAAADAAkAAAAAAAUAAAAEAAAAAAAAAAUAAAAEAAEAAAAAAAUAAAAEAAIAAAAAAAUAAAAEAAMAAAAAAAUAAAAEAAQAAAAAAAUAAAAEAAUAAAAAAAUAAAAEAAYAAAAAAAUAAAAEAAcAAAAAAAUAAAAEAAgAAAAAAAUAAAAEAAkAAAAAAAUAAAAFAAAAAAAAAAUAAAAFAAEAAAAAAAUAAAAFAAIAAAAAAAUAAAAFAAMAAAAAAAUAAAAFAAQAAAAAAAUAAAAFAAUAAAAAAAUAAAAFAAYAAAAAAAUAAAAFAAcAAAAAAAUAAAAFAAgAAAAAAAUAAAAFAAkAAAAAAAUAAAAGAAAAAAAAAAUAAAAGAAEAAAAAAAUAAAAGAAIAAAAAAAUAAAAGAAMAAAAAAAUAAAAGAAQAAAAAAAUAAAAGAAUAAAAAAAUAAAAGAAYAAAAAAAUAAAAGAAcAAAAAAAUAAAAGAAgAAAAAAAUAAAAGAAkAAAAAAAUAAAAHAAAAAAAAAAUAAAAHAAEAAAAAAAUAAAAHAAIAAAAAAAUAAAAHAAMAAAAAAAUAAAAHAAQAAAAAAAUAAAAHAAUAAAAAAAUAAAAHAAYAAAAAAAUAAAAHAAcAAAAAAAUAAAAHAAgAAAAAAAUAAAAHAAkAAAAAAAUAAAAIAAAAAAAAAAUAAAAIAAEAAAAAAAUAAAAIAAIAAAAAAAUAAAAIAAMAAAAAAAUAAAAIAAQAAAAAAAUAAAAIAAUAAAAAAAUAAAAIAAYAAAAAAAUAAAAIAAcAAAAAAAUAAAAIAAgAAAAAAAUAAAAIAAkAAAAAAAUAAAAJAAAAAAAAAAUAAAAJAAEAAAAAAAUAAAAJAAIAAAAAAAUAAAAJAAMAAAAAAAUAAAAJAAQAAAAAAAUAAAAJAAUAAAAAAAUAAAAJAAYAAAAAAAUAAAAJAAcAAAAAAAUAAAAJAAgAAAAAAAUAAAAJAAkAAAAAAAUAAAA=")
+tile_set = ExtResource("2_vbvik")
+
+[node name="TopLayer" type="TileMapLayer" parent="TileLayerHolder"]
+tile_set = ExtResource("2_vbvik")
+
+[node name="Goal" type="TileMapLayer" parent="TileLayerHolder"]
+tile_map_data = PackedByteArray("AAAHAAYAAAAHAAkAAAA=")
+tile_set = ExtResource("2_vbvik")
+
+[node name="GoalArea" type="Area2D" parent="TileLayerHolder/Goal"]
+
+[node name="GoalShape" type="CollisionShape2D" parent="TileLayerHolder/Goal/GoalArea"]
+position = Vector2(120, 104)
+shape = SubResource("RectangleShape2D_vbvik")
+
+[node name="Character" parent="." instance=ExtResource("3_xidlt")]
+position = Vector2(8, 56)
+
+[node name="MovementInterface" parent="." instance=ExtResource("4_ckybl")]
+unique_name_in_owner = true
+offset_top = 8.0
+offset_bottom = 24.0
+
+[node name="PanelContainer" parent="MovementInterface" index="0"]
+offset_top = -3.0
+offset_bottom = -3.0
+
+[node name="TextureProgressBar" parent="MovementInterface" index="1"]
+offset_top = 12.0
+offset_bottom = 20.0
+
+[connection signal="timeout" from="TimeLeft" to="." method="_on_time_left_timeout"]
+[connection signal="timeout" from="TimeLeft" to="Character" method="_on_time_left_timeout"]
+[connection signal="area_entered" from="TileLayerHolder/Goal/GoalArea" to="Character" method="_on_goal_area_area_entered"]
+[connection signal="at_end" from="Character" to="." method="_on_character_at_end"]
+
+[editable path="MovementInterface"]
