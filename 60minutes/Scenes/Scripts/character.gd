@@ -8,18 +8,21 @@ extends CharacterBody2D
 
 var listening : bool
 var is_finished : bool
+var started : bool
 var movement_array : Array[String]
 const move_amt : int = 16
 
 signal at_end(is_finished: bool)
 
 func _ready() -> void:
+	started = false
 	is_finished = false
 	movement_array = []
 
 # To Start the level just hit space or enter
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") and (not started):
+		started = true
 		listening = true
 		# Starts the timer
 		time_left.start()
